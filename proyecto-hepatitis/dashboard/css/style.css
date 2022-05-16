@@ -25,3 +25,22 @@ html, body {
   max-height: 55vh;
   overflow-y: scroll;
 }
+
+body {
+  background-color:#9E2A2B;
+}
+
+.h2 {
+  color:white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20 px;
+
+}
+.dropdown-item {
+   color:white;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+::marker {
+  color:white
+}
