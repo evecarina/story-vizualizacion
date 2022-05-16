@@ -90,13 +90,11 @@ const visualizacionMapa = {
     var jsonTest = new L.GeoJSON.AJAX(["data/provincias.geojson"],{onEachFeature:this.showProvinciaInfo, style: visualizacionMapa.styleProvincia}).addTo(map)
   },
   getColor(d) {
-    return d > 10000 ? '#800026' :
-           d > 1000  ? '#BD0026' :
-           d > 500  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
+    return d > 100 ? '#800026' :
+           d > 20 ? '#BD0026' :
+           d > 10  ? '#E31A1C' :
+           d > 5  ? '#FC4E2A' :
+           d > 1  ? '#FD8D3C' :
                       'transparent';
   },
   styleProvincia(feature) {
