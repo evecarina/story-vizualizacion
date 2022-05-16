@@ -11,9 +11,7 @@ html, body {
   max-height: 100%;
 }
 
-.map-wrapper {
-  position: relative;
-}
+
 
 .map-wrapper .map-container{
   position: relative;
@@ -28,4 +26,12 @@ html, body {
 
 .h2 {
    color : purple
+}
+
+.map-wrapper {
+  position: relative;
+  margin-bottom: 36px;
+}
+.productos-histogram {
+  margin-top: 79px;
 }
