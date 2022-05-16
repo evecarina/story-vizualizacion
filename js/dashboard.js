@@ -366,7 +366,7 @@ const visualizacionMapa = {
           text: 'Cantidad de LIVE/DIE por distrito'
       },
       subtitle: {
-          text: ''
+          text: 'La siguiente imagen muestra un gráfico de barras, se vizualiza las personas fallecidas y vivas por distrito'
       },
       xAxis: {
         categories: _.uniq(_.map(dataProvincia, 'DISTRICTNAME')),
@@ -431,6 +431,9 @@ const visualizacionMapa = {
       title: {
           text: 'Porcentaje de LIVE/DIE por Provincia'
       },
+      subtitle: {
+        text: 'Gráfico pie se vizualiza el porcentaje de personas fallecidas y vivas por provincia'
+    },
       tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
       },
@@ -476,7 +479,7 @@ const visualizacionMapa = {
         text: 'Población'
       },
       subtitle: {
-        text: 'Inscripción de población por periodo'
+        text: 'Gráfico histograma, se vizualiza la inscripción de población por periodo'
       },
       xAxis: {
         categories: (meses).sort(),
