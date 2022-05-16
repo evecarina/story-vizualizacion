@@ -90,11 +90,13 @@ const visualizacionMapa = {
     var jsonTest = new L.GeoJSON.AJAX(["data/provincias.geojson"],{onEachFeature:this.showProvinciaInfo, style: visualizacionMapa.styleProvincia}).addTo(map)
   },
   getColor(d) {
-    return d > 100 ? '#800026' :
-           d > 20  ? '#BD0026' :
-           d > 10  ? '#E31A1C' :
-           d > 5  ? '#FC4E2A' :
-           d > 1   ? '#FD8D3C' :
+    return d > 10000 ? '#800026' :
+           d > 1000  ? '#BD0026' :
+           d > 500  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
                       'transparent';
   },
   styleProvincia(feature) {
@@ -346,16 +348,14 @@ const visualizacionMapa = {
 
     const dataProvincia = _.filter(allData, ['PROVINCENAME', nombreProvincia])
 
-
-
-    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'DISTRICTNAME'), provincia => {
-      var result = provincia.filter(value => value.Class === 'LIVE').length;
-      return result
+    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), provincia => {
+      return provincia.length
     })
 
-    const cantidadProductos2 = _.map(_.groupBy(dataProvincia, 'DISTRICTNAME'), provincia => {
-      var result = provincia.filter(value => value.Class === 'DIE').length;
-      return result
+    const totalProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), provincia => {
+      return _.sumBy(provincia, i => {
+        return parseFloat(i.TOTALPAID)
+      })
     })
 
     Highcharts.chart('totalProductos', {
@@ -369,7 +369,7 @@ const visualizacionMapa = {
           text: ''
       },
       xAxis: {
-        categories: _.uniq(_.map(dataProvincia, 'DISTRICTNAME')),
+        categories: _.uniq(_.map(dataProvincia, 'SKU_NAME')),
         crosshair: true
       },
       yAxis: {
@@ -394,12 +394,12 @@ const visualizacionMapa = {
       },
       series: [
         {
-          name: 'LIVE',
+          name: 'Cantidad',
           data: cantidadProductos
         },
         {
-          name: 'DIE',
-          data: cantidadProductos2
+          name: 'Total S/.',
+          data: totalProductos
       }]
     })
 
@@ -408,7 +408,7 @@ const visualizacionMapa = {
 
     const dataProvincia = _.filter(allData, ['PROVINCENAME', nombreProvincia])
     console.log(allData)
-    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'Class'), (items, producto) => {
+    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), (items, producto) => {
       return {
         name: producto,
         y: _.sumBy(items, i => {

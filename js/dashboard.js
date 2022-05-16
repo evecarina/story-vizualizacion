@@ -32,7 +32,9 @@ const visualizacionMapa = {
       center: center,
       zoom: zoom,
       layers: [streets, markers]
-    })
+    }
+    
+    )
   },
   loadDataGoogleDocs() {
     var xmlhttp = new XMLHttpRequest()
@@ -90,13 +92,11 @@ const visualizacionMapa = {
     var jsonTest = new L.GeoJSON.AJAX(["data/provincias.geojson"],{onEachFeature:this.showProvinciaInfo, style: visualizacionMapa.styleProvincia}).addTo(map)
   },
   getColor(d) {
-    return d > 10000 ? '#800026' :
-           d > 1000  ? '#BD0026' :
-           d > 500  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
+    return d > 100 ? '#800026' :
+           d > 20  ? '#BD0026' :
+           d > 10  ? '#E31A1C' :
+           d > 5  ? '#FC4E2A' :
+           d > 1   ? '#FD8D3C' :
                       'transparent';
   },
   styleProvincia(feature) {
@@ -348,14 +348,14 @@ const visualizacionMapa = {
 
     const dataProvincia = _.filter(allData, ['PROVINCENAME', nombreProvincia])
 
-    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), provincia => {
-      return provincia.length
+    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'DISTRICTNAME'), provincia => {
+      var result = provincia.filter(value => value.Class === 'LIVE').length;
+      return result
     })
 
-    const totalProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), provincia => {
-      return _.sumBy(provincia, i => {
-        return parseFloat(i.TOTALPAID)
-      })
+    const cantidadProductos2 = _.map(_.groupBy(dataProvincia, 'DISTRICTNAME'), provincia => {
+      var result = provincia.filter(value => value.Class === 'DIE').length;
+      return result
     })
 
     Highcharts.chart('totalProductos', {
@@ -363,19 +363,19 @@ const visualizacionMapa = {
           type: 'column'
       },
       title: {
-          text: 'Reporte de ventas'
+          text: 'Cantidad de LIVE/DIE por distrito'
       },
       subtitle: {
           text: ''
       },
       xAxis: {
-        categories: _.uniq(_.map(dataProvincia, 'SKU_NAME')),
+        categories: _.uniq(_.map(dataProvincia, 'DISTRICTNAME')),
         crosshair: true
       },
       yAxis: {
           min: 0,
           title: {
-              text: 'Cantidad / Total S/.'
+              text: 'Cantidad'
           }
       },
       tooltip: {
@@ -394,12 +394,12 @@ const visualizacionMapa = {
       },
       series: [
         {
-          name: 'Cantidad',
+          name: 'LIVE',
           data: cantidadProductos
         },
         {
-          name: 'Total S/.',
-          data: totalProductos
+          name: 'DIE',
+          data: cantidadProductos2
       }]
     })
 
@@ -408,7 +408,7 @@ const visualizacionMapa = {
 
     const dataProvincia = _.filter(allData, ['PROVINCENAME', nombreProvincia])
     console.log(allData)
-    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'SKU_NAME'), (items, producto) => {
+    const cantidadProductos = _.map(_.groupBy(dataProvincia, 'Class'), (items, producto) => {
       return {
         name: producto,
         y: _.sumBy(items, i => {
@@ -429,7 +429,7 @@ const visualizacionMapa = {
           type: 'pie'
       },
       title: {
-          text: 'Total de ventas por productoist'
+          text: 'Porcentaje de LIVE/DIE por Provincia'
       },
       tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -450,7 +450,7 @@ const visualizacionMapa = {
           }
       },
       series: [{
-        name: 'Productos vendidos',
+        name: 'Porcentaje',
         colorByPoint: true,
         data: cantidadProductos
       }]
@@ -473,10 +473,10 @@ const visualizacionMapa = {
         type: 'column'
       },
       title: {
-        text: 'Ventas de productos'
+        text: 'Población'
       },
       subtitle: {
-        text: 'cantidad de productos vendidos por mes'
+        text: 'Inscripción de población por periodo'
       },
       xAxis: {
         categories: (meses).sort(),
@@ -491,7 +491,7 @@ const visualizacionMapa = {
       tooltip: {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-          '<td style="padding:0"><b>{point.y:.1f} productos vendidos</b></td></tr>',
+          '<td style="padding:0"><b>{point.y:.1f} Población</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true
