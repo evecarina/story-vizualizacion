@@ -25,3 +25,7 @@ html, body {
   max-height: 55vh;
   overflow-y: scroll;
 }
+
+.h2 {
+   color : purple
+}
