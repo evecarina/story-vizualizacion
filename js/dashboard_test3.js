@@ -157,6 +157,7 @@ const visualizacionMapa = {
     list.innerHTML = listContent
 
   },
+
   createRangeAge() {
 
     const minAge = _.minBy(allBank, 'age')
@@ -170,6 +171,7 @@ const visualizacionMapa = {
     containerRange.innerHTML = contentRange
 
   },
+  
   showProvinciaInfo(provincia,layer) {
     const $this = this
     layer.on({
