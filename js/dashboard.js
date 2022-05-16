@@ -93,10 +93,10 @@ const visualizacionMapa = {
   },
   getColor(d) {
     return d > 100 ? '#800026' :
-           d > 20  ? '#BD0026' :
-           d > 10  ? '#E31A1C' :
-           d > 5  ? '#FC4E2A' :
-           d > 1   ? '#FD8D3C' :
+           d > 9  ? '#BD0026' :
+           d > 2  ? '#E31A1C' :
+           d > 1  ? '#FC4E2A' :
+           d > 0   ? '#FD8D3C' :
                       'transparent';
   },
   styleProvincia(feature) {
